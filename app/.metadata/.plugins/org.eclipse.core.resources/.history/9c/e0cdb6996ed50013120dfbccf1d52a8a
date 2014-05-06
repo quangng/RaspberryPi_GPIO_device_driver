@@ -1,0 +1,129 @@
+/*
+ ============================================================================
+ Name        : collision_test.c
+ Author      : Vu Nguyen <quangngmetro@gmail.com>
+ Version     : 1.0
+ Copyright   : GPL, modified from Blake Bourque
+ Description : This application program was developed to test that only one
+ process has exclusive access to one GPIO pin for doing operations such as
+ write, toggle, set state and direction. 10 child processes were created, and
+ all these processes tried to access the same GPIO pins to set their direction
+ as output and to set their state as high
+ ============================================================================
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <sys/wait.h>
+
+#include "modgpio.h"
+
+#define NUM_PINS 21
+#define N 10
+
+static int pin_arr[NUM_PINS] = {
+		2,
+		3,
+		4,
+		7,
+		8,
+		9,
+		10,
+		11,
+		14,
+		15,
+		17,
+		18,
+		22,
+		23,
+		24,
+		25,
+		27,
+		28,
+		29,
+		30,
+		31,
+};
+
+struct gpio_data_mode modeData;
+
+void forkChildren(int nChildren, int fd);
+void child(int fd);
+
+int main(int argc, char *argv[])
+{
+	int fd, status=0;
+	pid_t wpid;
+
+	fd = open("/dev/rpigpio", O_RDONLY); ///hmm, if read only howcome write works?
+	if (!fd) {
+		perror("open(O_RDONLY)");
+		return errno;
+	}
+	printf("Parent pid: %d", getpid());
+	forkChildren(N, fd);
+	while ((wpid = wait(&status)) > 0) {
+		printf("Exit status of %d was %d (%s)\n", (int)wpid, status, (status > 0) ? "accept" : "reject");
+	}
+	close(fd);
+	return 0;
+}
+
+void forkChildren(int nChildren, int fd)
+{
+	int i;
+	pid_t pid;
+
+	for (i = 0; i < nChildren; i++) {
+		pid = fork();
+		if (pid == 0) {
+			child(fd);
+			break;
+		}
+	}
+}
+
+void child(int fd)
+{
+	int i, t, ret, j;
+
+	// Reserve GPIO pins
+	for (i = 0; i < NUM_PINS; i++) {
+		t = pin_arr[i];
+		ret = ioctl(fd, GPIO_REQUEST, &t);
+		if (ret < 0)
+			perror("ioctl request");
+	}
+	printf("Reserved %d GPIO pins\n", i);
+
+	// Set GPIO pins as output
+	for (i = 0; i < NUM_PINS; i++) {
+		t = pin_arr[i];
+		modeData.pin = t;
+		modeData.data = MODE_OUTPUT;
+		ret = ioctl(fd, GPIO_MODE, &modeData);
+		if (ret < 0)
+			perror("ioctl set output");
+	}
+	printf("Set %d GPIO pins as OUTPUT\n", i);
+
+	// Toggle the state of GPIO pins N times
+	for (j = 0; j < N; j++) {
+		//toggle pins
+		for (i = 0; i < NUM_PINS; i++) {
+			t = pin_arr[i];
+			ret = ioctl(fd, GPIO_TOGGLE, &t);
+			if (ret < 0)
+				perror("ioctl toggle");
+		}
+		printf("Client %d toggled pin %d to %d\n", getpid(), pin_arr[i], t);
+		sleep(1);
+	}
+	exit(0);
+}

@@ -1,0 +1,82 @@
+/*
+ ============================================================================
+ Name        : c.c
+ Author      : 
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+
+
+#include "modgpio.h"
+
+int main(int argc, char * argv[])
+{
+	int fd;
+	int ret;
+	int t = 27;
+	struct gpio_data_mode mydmstruct;
+	struct gpio_data_write mydwstruct;
+
+	fd = open("/dev/rpigpio", O_RDONLY); ///hmm, if read only howcome write works?
+	if (!fd) {
+		perror("open(O_RDONLY)");
+		return errno;
+	}
+	//reserve pins
+	ret = ioctl(fd, GPIO_REQUEST, &t);
+	if (ret < 0)
+		perror("ioctl");
+	else
+		printf("Reserved pin %d\n", t);
+
+	//set output
+	mydmstruct.pin = t;
+	mydmstruct.data = MODE_OUTPUT;
+	ret = ioctl(fd, GPIO_MODE, &mydmstruct);
+	if (ret < 0)
+		perror("ioctl");
+	else
+		printf("Set pin %d as OUTPUT\n", t);
+
+	// set pin to high state
+	mydwstruct.pin = t;
+	mydwstruct.data = 1;
+	ret = ioctl(fd, GPIO_WRITE, &mydwstruct);
+	if (ret < 0)
+		perror("ioctl");
+	else
+		printf("Set pin to high state");
+	sleep (3);
+
+	//set input
+	mydmstruct.pin = t;
+	mydmstruct.data = MODE_INPUT;
+	ret = ioctl(fd, GPIO_MODE, &mydmstruct);
+	if (ret < 0)
+		perror("ioctl");
+	else
+		printf("Set pin %d as INPUT\n", t);
+	
+	// set pin to high state from input pin to test direction collision
+	mydwstruct.pin = t;
+	mydwstruct.data = 1;
+	ret = ioctl(fd, GPIO_WRITE, &mydwstruct);
+	if (ret < 0)
+		perror("ioctl");
+	else
+		printf("Set pin to high state");
+
+	sleep (10);
+	return 0;
+}

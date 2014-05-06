@@ -1,0 +1,45 @@
+!SESSION 2014-05-04 22:00:36.633 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_30
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/quangng/study/linux_device_drivers/Metropolia/labs/linux_device_driver_course_project/app -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-04 22:01:21.668
+!MESSAGE Indexed 'rampleds.c' (0 sources, 8 headers) in 0.34 sec: 0 declarations; 0 references; 8 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+!SESSION 2014-05-04 22:05:52.020 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_30
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/quangng/study/linux_device_drivers/Metropolia/labs/linux_device_driver_course_project/app -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-04 22:14:48.247
+!MESSAGE Indexed 'rampleds.c' (1 sources, 44 headers) in 5.58 sec: 1,412 declarations; 1,800 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+!SESSION 2014-05-04 23:54:22.506 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_30
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/quangng/study/linux_device_drivers/Metropolia/labs/linux_device_driver_course_project/app -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-04 23:55:29.320
+!MESSAGE Indexed 'collision_test' (1 sources, 44 headers) in 2.22 sec: 1,412 declarations; 1,800 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+!SESSION 2014-05-06 03:53:15.406 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_30
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-06 03:53:59.535
+!MESSAGE Indexed 'Copy of rampleds.c' (1 sources, 74 headers) in 2.28 sec: 2,212 declarations; 2,755 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-06 03:54:15.089
+!MESSAGE Indexed 'direction_collision_test' (1 sources, 74 headers) in 1.23 sec: 2,212 declarations; 2,755 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-06 04:01:35.449
+!MESSAGE Indexed 'direction_direction_test_1' (1 sources, 74 headers) in 0.93 sec: 2,214 declarations; 2,654 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-05-06 13:21:46.099
+!MESSAGE Indexed 'input_test' (1 sources, 74 headers) in 1.05 sec: 2,212 declarations; 2,755 references; 3 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)

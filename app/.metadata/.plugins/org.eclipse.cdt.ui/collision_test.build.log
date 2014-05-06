@@ -1,0 +1,16 @@
+
+**** Build of configuration Debug for project collision_test ****
+
+make all 
+Building file: ../src/collision_test.c
+Invoking: GCC C Compiler
+~/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/buildtools/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-gcc -I"/home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/ linux/include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/collision_test.d" -MT"src/collision_test.d" -o "src/collision_test.o" "../src/collision_test.c"
+Finished building: ../src/collision_test.c
+ 
+Building target: collision_test
+Invoking: GCC C Linker
+~/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/buildtools/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-gcc -L/home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/linux/lib -o "collision_test"  ./src/collision_test.o   
+Finished building target: collision_test
+ 
+
+**** Build Finished ****

@@ -1,0 +1,110 @@
+/*
+ ============================================================================
+ Name        : output_test.c
+ Author      : Vu Nguyen <quangngmetro@gmail.com>
+ Version     : 1.0
+ Copyright   : GPL (Modified from Blake Bourque)
+ Description : This application program is used to test the output functionality
+ of the GPIO device driver implemented for Raspberry Pi rev 2.0 model B.
+ ============================================================================
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+
+#include "modgpio.h"
+
+#define NUM_PINS 17
+
+static int pins[NUM_PINS] = {
+		2,
+		3,
+		4,
+		7,
+		8,
+		9,
+		10,
+		11,
+		14,
+		15,
+		17,
+		18,
+		22,
+		23,
+		24,
+		25,
+		27,
+};
+
+
+int main(int argc, char * argv[])
+{
+	int i;
+	int fd;
+	int ret;
+	int t;
+	struct gpio_data_mode mydmstruct;
+	struct gpio_data_write mydwstruct;
+
+	fd = open("/dev/rpigpio", O_RDWR);
+	if (!fd) {
+		perror("open(O_RDONLY)");
+		return errno;
+	}
+
+	// Reserve GPIO pins
+	for (i=0; i<NUM_PINS; i++) {
+		t=pins[i];
+		ret = ioctl(fd, GPIO_REQUEST, &t);
+		if (ret < 0)
+			perror("ioctl");
+		else
+			printf("Reserved pin %d\n", t);
+	}
+
+	// Set the direction of GPIO pins as output
+	for (i=0; i<NUM_PINS; i++) {
+		t=pins[i];
+		mydmstruct.pin = t;
+		mydmstruct.data = MODE_OUTPUT;
+
+		ret = ioctl(fd, GPIO_MODE, &mydmstruct);
+		if (ret < 0)
+			perror("ioctl");
+		else
+			printf("Set pin %d as OUTPUT\n", t);
+	}
+	
+	// Set the state of GPIO pins as high
+	for (i = 0; i < NUM_PINS; i++) {
+		t=pins[i];
+		mydwstruct.pin = t;
+		mydwstruct.data = 1;
+		ret = ioctl(fd, GPIO_WRITE, &mydwstruct);
+		if (ret < 0)
+			perror("ioctl");
+		else
+			printf("Set pin %d as HIGH\n", pins[i]);
+	}
+	sleep(1);
+
+	// Set the state of GPIO pins as low
+	for (i = 0; i < NUM_PINS; i++) {
+		t=pins[i];
+		mydwstruct.pin = t;
+		mydwstruct.data = 0;
+		ret = ioctl(fd, GPIO_WRITE, &mydwstruct);
+		if (ret < 0)
+			perror("ioctl");
+		else
+			printf("Set pin %d as LOW\n", pins[i]);
+	}
+
+	return 0;
+}
