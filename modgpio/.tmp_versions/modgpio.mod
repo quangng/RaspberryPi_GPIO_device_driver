@@ -1,0 +1,2 @@
+/home/quangng/study/linux_device_drivers/Metropolia/labs/linux_device_driver_course_project/modgpio/modgpio.ko
+/home/quangng/study/linux_device_drivers/Metropolia/labs/linux_device_driver_course_project/modgpio/modgpio.o
