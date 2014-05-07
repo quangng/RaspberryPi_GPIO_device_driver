@@ -1,0 +1,24 @@
+1. Create a new C project in Eclipse IDE
+- File -> New -> C Project -> Executable -> Hello World ANSI C Project
+- Name a project in Project name tag -> Finish
+
+2. Setup compiler 
+- Right click project name in Project Explorer section -> Properties (or Atl + Enter)
+- Click C/C++ Build -> Settings
+ + GCC C Compiler -> Command: path/to/compiler
+ Ex: ~/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/buildtools/tools/arm-bcm2708/
+ gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-gcc
+	
+ + Click GCC C Linker -> Command: path/to/compiler (the same path as above)
+ + Click GCC Assembler -> Command: path/to/compiler (the same path as above or path/to/compiler/arm-linux-gnueabifh-as)
+
+3. Setup header and library path
+- Click C/C++ General -> Paths and Symbols -> Includes
+ + Assembly -> Add: path/to/header/in/linux/kernel
+ Ex: /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/
+ linux/include
+ + GNU C -> Add: path/to/header/in/linux/kernel (the same as above)
+
+-Click C/C++ General -> Paths and Symbols -> Library Paths -> Add: path/to/library/in/linux/kernel
+ Ex: /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/
+ linux/lib

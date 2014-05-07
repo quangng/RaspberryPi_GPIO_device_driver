@@ -1,0 +1,66 @@
+1. Create a new Makefile project
+- File -> New -> Project... -> C/C++ -> C Project -> Makefile project -> Empty Project
+- Name a project name in Project name: box -> Finish 
+
+2. Create a Makefile file for compiling the kernel module
+- Right click project folder in Project Explorer section -> New -> File -> Filename: name it to "Makefile"
+  Example of a Makefile file:
+ 
+MODULE_NAME = raspberrypi_gpio_driver
+KDIR = /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/linux
+TOOLCHAIN = /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/buildtools/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-
+TARGET = arm
+PWD := $(shell pwd)
+MODULE_UPLOAD = $(MODULE_NAME).ko
+
+
+obj-m := $(MODULE_NAME).o
+
+all:
+	make -C $(KDIR) M=$(PWD) ARCH=$(TARGET) CROSS_COMPILE=$(TOOLCHAIN) modules
+	
+install:
+	scp $(MODULE_UPLOAD) pi@domain_name:/home/pi/linux_device_driver/kernel_modules/gpio_device_driver/
+
+clean:
+	make -C $(KDIR) M=$(PWD) ARCH=$(TARGET) CROSS_COMPILE=$(TOOLCHAIN) clean
+
+3. Create a C source file for the kernel module/device driver
+- Right click project foler in Project Explorer section -> New -> Source File 
+- Name a source file name in Source file: box -> Finish 
+
+4. Setup kernel source code path for Eclipse
+- Right click project folder in Project Explorer section -> Properties -> C/C++ General -> Paths and Symbols -> Includes
+- Click Assembly -> Add: Path/to/assembly/header
+  Ex: /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/
+      linux/include/asm-generic
+- Click GNU C -> Add: Path/to/linux/kernel/header
+  Ex: /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/
+	  linux/include
+
+5. Finish setting up
+- Apply -> OK
+
+
+Note: In case there are errors in Eclipse that it cannot file the header, for example, <linux/ioctl.h>
+Search for that header file in the linux kernel source code by:
+$ find ./ -name "ioctl.h"
+where ./ is the current directory in the kernel source code
+
+The output looks something like the following:
+
+$ ~/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/linux$ find ./ -name "ioctl.h"
+./include/asm-generic/ioctl.h
+./include/uapi/asm-generic/ioctl.h
+./include/uapi/linux/ioctl.h
+./include/uapi/linux/hdlc/ioctl.h
+
+
+In the kernel module source code, there is an error in #include <linux/ioctl.h>. So, the one that should be picked up is
+./include/uapi/linux/ioctl.h
+To include this, perform the step 4 and add the path as follows:
+
+Ex: /home/quangng/study/linux_device_drivers/Metropolia/labs/final_year_project/ldd_raspi_gpio_driver/kernel/Rpi_kernel/linux/
+    include/uapi
+
+
